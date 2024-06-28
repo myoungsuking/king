@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>명수의 로또 번호 추출기</title>
+    <link rel="stylesheet" href="style.css">
     <script>
         function generateLottoNumbers() {
             const numbers = [];
@@ -30,11 +31,13 @@
     </script>
 </head>
 <body>
-    <h1>명수의 로또 번호 추출기</h1>
-    <h2>추출된 번호</h2>
-    <div id="lotto-numbers"></div>
-    <button onclick="displayLottoNumbers()">추출 재 생성</button>
-    <p>도박 문의: 010-8855-2723</p>
-    <p>당첨 시 뽀찌 10% 주이소</p>
+    <div class="container">
+        <h1>명수의 로또 번호 추출기</h1>
+        <h2>추출된 번호</h2>
+        <div id="lotto-numbers" class="lotto-numbers"></div>
+        <button onclick="displayLottoNumbers()">추출 재 생성</button>
+        <p>도박 문의: 010-8855-2723</p>
+        <p>당첨 시 뽀찌 10% 주이소</p>
+    </div>
 </body>
 </html>
