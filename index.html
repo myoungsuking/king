@@ -1,33 +1,20 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>명수 로또 번호 추출기</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>명수의 로또 번호 추출기</h1>
-        <p></p>
-        <div class="lotto-numbers">
-            <h2>추출된 번호</h2>
-            <ul class="centered-list">
-                {% for numbers in lotto_numbers %}
-                <li>{{ numbers | join(', ') }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="button-center">
-            <form action="/" method="post">
-                <button type="submit">추출 재 생성</button>
-            </form>
-        </div>
-        <div class="contact-info">
-            <p>도박 문의<br>
-            <span class="highlight">010-8855-2723</span><br>
-            당첨 시 뽀찌 10% 주이소</p>
-        </div>
-    </div>
-</body>
-</html>
+from jinja2 import Environment, FileSystemLoader
+import random
+
+# 로또 번호 생성 함수
+def generate_lotto_numbers():
+    return sorted(random.sample(range(1, 46), 6))
+
+# Jinja2 환경 설정
+env = Environment(loader=FileSystemLoader('.'))
+template = env.get_template('index_template.html')
+
+# 랜더링할 데이터 준비
+lotto_numbers = [generate_lotto_numbers() for _ in range(5)]  # 5개의 로또 번호 세트 생성
+
+# 템플릿 렌더링
+rendered_html = template.render(lotto_numbers=lotto_numbers)
+
+# 렌더링된 HTML 파일 저장
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(rendered_html)
