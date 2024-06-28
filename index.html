@@ -3,14 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>명수의 로또 번호 추출기</title>
+    <script>
+        function generateLottoNumbers() {
+            const numbers = [];
+            while (numbers.length < 6) {
+                const num = Math.floor(Math.random() * 45) + 1;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            return numbers.sort((a, b) => a - b);
+        }
+
+        function displayLottoNumbers() {
+            const container = document.getElementById('lotto-numbers');
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const numbers = generateLottoNumbers();
+                const p = document.createElement('p');
+                p.textContent = numbers.join(', ');
+                container.appendChild(p);
+            }
+        }
+
+        window.onload = displayLottoNumbers;
+    </script>
 </head>
 <body>
     <h1>명수의 로또 번호 추출기</h1>
     <h2>추출된 번호</h2>
-    {% for numbers in lotto_numbers %}
-        <p>{{ numbers | join(', ') }}</p>
-    {% endfor %}
-    <button onclick="window.location.reload();">추출 재 생성</button>
+    <div id="lotto-numbers"></div>
+    <button onclick="displayLottoNumbers()">추출 재 생성</button>
     <p>도박 문의: 010-8855-2723</p>
     <p>당첨 시 뽀찌 10% 주이소</p>
 </body>
