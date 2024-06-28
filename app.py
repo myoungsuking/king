@@ -1,25 +1,20 @@
-from flask import Flask, render_template, request
+from jinja2 import Environment, FileSystemLoader
 import random
 
-app = Flask(__name__)
-
+# 로또 번호 생성 함수
 def generate_lotto_numbers():
-    results = []
-    for _ in range(5):
-        numbers = sorted(random.sample(range(1, 46), 5))
-        results.append(numbers)
-    return results
+    return sorted(random.sample(range(1, 46), 6))
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        # POST 요청 처리 로직: 새로운 로또 번호 생성
-        lotto_numbers = generate_lotto_numbers()
-        return render_template('index.html', lotto_numbers=lotto_numbers)
-    else:
-        # GET 요청 처리 로직: 초기 로드
-        lotto_numbers = generate_lotto_numbers()
-        return render_template('index.html', lotto_numbers=lotto_numbers)
+# Jinja2 환경 설정
+env = Environment(loader=FileSystemLoader('.'))
+template = env.get_template('index_template.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# 랜더링할 데이터 준비
+lotto_numbers = [generate_lotto_numbers() for _ in range(5)]  # 5개의 로또 번호 세트 생성
+
+# 템플릿 렌더링
+rendered_html = template.render(lotto_numbers=lotto_numbers)
+
+# 렌더링된 HTML 파일 저장
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(rendered_html)
