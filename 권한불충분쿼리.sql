@@ -1,0 +1,1 @@
+drop tabel approval_requests;
